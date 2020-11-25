@@ -8,8 +8,6 @@ This tutorial will go through the steps to build a simple but functional chat ap
 
 In this project we will be building a website using the [Flask](https://flask.palletsprojects.com/en/1.1.x/) "micro" web-server project. If you have never built a website before, this may be a little confusing to start. In this section, I'll try to cover the basics of how our project is going to work. If you already have some understanding of websites, you can skip this section and just jump in to the project.
 
-### Pieces of a Web Site
-
 There are many different ways to build a website, but _in general_ there are a couple major pieces you need to make a full web application: a web page, and a web server.
 
 #### Web Pages

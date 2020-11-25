@@ -1,0 +1,30 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>MeChat</title>
+    <link href="/static/main.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <h1>Me Chat</h1>
+    <div id="content">
+        <div>
+            <ul id="messages">
+                {% for message in messages %}
+                <li>{{ message.username }}: {{ message.text }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div id="sending">
+            <textarea id="message"></textarea>
+        </div>
+    </div>
+
+
+    <script src="/static/main.js"></script>
+</body>
+
+</html>
