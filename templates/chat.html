@@ -4,27 +4,28 @@
 
 <head>
     <meta charset="utf-8">
-    <title>MeChat</title>
+    <title>Chat</title>
     <link href="/static/main.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
-    <h1>Me Chat</h1>
-    <div id="content">
-        <div>
-            <ul id="messages">
-                {% for message in messages %}
-                <li>{{ message.username }}: {{ message.text }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-        <div id="sending">
-            <textarea id="message"></textarea>
+    <h1>Chat</h1>
+    <div id="chat">
+        <ul id="messages">
+            <li class="message">
+                <div class="name">Thomas</div>
+                <div class="text">Hello there!</div>
+            </li>
+            <li class="message mine">
+                <div class="name">Tyler</div>
+                <div class="text">Hi! This is a long message that will wrap.</div>
+            </li>
+        </ul>
+        <div id="compose">
+            <input type="text" id="message-input" placeholder="Send a message"></input>
+            <button type="button" id="send-button">Send</button>
         </div>
     </div>
-
-
-    <script src="/static/main.js"></script>
 </body>
 
 </html>

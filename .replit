@@ -1,0 +1,5 @@
+language = "python3"
+run = "python main.py"
+
+[packager]
+ignoredPaths=[".git", "docs", "static", "templates"]

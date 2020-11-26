@@ -51,6 +51,70 @@ button:hover {
   text-align: center;
 }
 
-.card > input, button {
+.card > input, .card > button {
   width: 100%;
 }
+
+#chat {
+  border: 1px solid #e9e9e9;
+  border-radius: 4px;
+  padding: 20px;
+}
+
+#messages {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  max-height: 50vh;
+  overflow: auto;
+}
+
+.message {
+  margin-top: 6px;
+  margin-bottom: 6px;
+  display: inline-block;
+  max-width: 60%;
+}
+
+.mine {
+  margin-left: auto;
+}
+
+.text {
+  padding: 8px 16px;
+  background-color: #E5E5EA;
+  border-radius: 20px;
+  display: inline-block;
+}
+
+.mine > .text {
+  background-color: #0B93F6;
+  color: white;
+}
+
+.name {
+  font-size: 0.8em;
+  margin: 2px 16px;
+}
+
+.mine > .name {
+  text-align: right;
+}
+
+#compose {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: row;
+}
+
+#compose > input {
+  flex-grow: 1;
+  margin-right: 8px;
+}
+
+#compose > button {
+  height: 34px;
+}
+
