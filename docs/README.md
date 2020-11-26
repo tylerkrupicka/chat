@@ -277,6 +277,7 @@ Next, we need to check and make sure they have typed a username before sending. 
 // Check if it is not empty
 if (username.length === 0){
   setError("Username is empty");
+  return;
 }
 ```
 
@@ -285,6 +286,7 @@ A few notes:
 - In JavaScript you get the length of a variable using `.length`.
 - The `===` equals sign is not a typo, in JavaScript you use three equals signs for [strict equality](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Strict_equality). 
 - The `setError` function is not a standard JavaScript function. I have created it for you since it might be confusing. Tricky, right?
+- The `return` stops our function from continuing. We do not need to bother sending an empty username.
 
 ##### Send the Username to Flask
 
@@ -340,9 +342,9 @@ Why is it an error?
 
 Well, we haven't actually set up our Python program to have a `/new_user` route! We'll do that next.
 
-#### Add User Flask Route
+### Add User Flask Route
 
-##### Set up the Route
+#### Set up the Route
 
 Back in `main.py` we need to add a `/new_user` route that gets the data we are sending from the page. If you remember, we're sending the data as `JSON` using a `POST` request. Here's how you would get that data using Flask:
 
@@ -368,17 +370,17 @@ If you restart your repl, and submit a new user, you should see the username now
 As you can see in the picture, we now have a Python dictionary with the username in it! We can get the username using:
 
 ```py
-data['username']
+username = data['username']
 ```
 
-##### Check if the username exists
+#### Check if the username exists
 
 Now we need to check if the username exists, and return a response to the page. How do we know what other usernames are taken? We need to keep track of all the usernames we have seen so far.
 
 In Python, we can probably do this using a list:
 
 ```py
-users = []
+users = [] # Outside function
 
 if username in users:
   return "Already exists", 400 # Send an error 400
@@ -387,4 +389,84 @@ else:
   return "OK"
 ```
 
-> Note: You'll need to create the users array _outside_ of your `add_user` function. If you make it _inside_, a new users array will be created every time somebody hits submit!
+> Note: You'll need to create the users array _outside_ of your `add_user` function. If you make it _inside_, a new users array will be created every time somebody clicks the submit button.
+
+#### Try it out!
+
+Now our sign up page should work! Try submitting a username; the first time you hit submit nothing will happen (we haven't done that logic yet), but the second time you should see that the username already exists!
+
+<p align="center">
+  <img src="./images/username_taken.png" alt="The username is taken"/>
+</p>
+
+### The Chat Page
+
+#### Set up the Route
+
+We're finally done with usernames, let's make the chat page! We'll put it at the `/chat` route in our website:
+
+```py
+@app.route('/chat')
+def chat_page():
+    return render_template('chat.html')
+```
+
+Now we just need to change our JavaScript in `new_user.html` to redirect to the chat page after they create a username. I've created some helpful functions for you to make this easier.
+
+```js
+if (response.status === 200) {
+  // Username was added successfully
+  saveUsername(username); // Save the username so we can use it in chat
+  navigate('/chat'); // Go to the chat page
+}
+```
+
+Now you should be able to restart your program and enter a username. If it adds it successfully, you will be navigated to the `/chat` screen!
+
+<p align="center">
+  <img src="./images/chat_screen.png" alt="The chat screen"/>
+</p>
+
+#### Sending a Message
+
+We are now going to be writing some code in `chat.html`, so that we can send messages. This will hopefully look _very_ similar to the code for sending the username.
+
+```js
+// Write your JavaScript here
+const input = document.getElementById("message-input");
+const button = document.getElementById("send-button");
+
+async function sendMessage() {
+  // Get the message
+  const message = input.value;
+  // Check if it is not empty
+  if (message.length === 0){
+    setError("Message is empty");
+    return;
+  }
+  // Send it to our Python program
+  const response = await fetch('/send_message', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({username: getUsername(), message: message})
+  });
+  // Check the results
+  if (response.status !== 200) {
+    setError("An error occurred")
+  } 
+}
+
+button.addEventListener("click", sendMessage);
+```
+
+If any part of this seems confusing, look back at the `new_user.html` part of the tutorial. The only difference is we are sending JSON that looks like:
+
+```json
+{
+  "username": "test",
+  "message": "the text of the message"
+}
+```

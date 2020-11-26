@@ -12,20 +12,20 @@
     <h1>Chat</h1>
     <div id="chat">
         <ul id="messages">
+            {% for message in messages %}
             <li class="message">
-                <div class="name">Thomas</div>
-                <div class="text">Hello there!</div>
+                <div class="name">{{ message.username }}</div>
+                <div class="text">{{ message.text }}</div>
             </li>
-            <li class="message mine">
-                <div class="name">Tyler</div>
-                <div class="text">Hi! This is a long message that will wrap.</div>
-            </li>
+            {% endfor %}
         </ul>
         <div id="compose">
             <input type="text" id="message-input" placeholder="Send a message"></input>
             <button type="button" id="send-button">Send</button>
         </div>
+        <div id="error"></div>
     </div>
+    <script src="/static/main.js"></script>
 </body>
 
 <script>
