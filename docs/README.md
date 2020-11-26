@@ -160,4 +160,231 @@ def send_json():
 
 ### Creating your Repl
 
-For this tutorial, we will be using [Repl It](https://repl.it) to run our site.
+For this tutorial, we will be using [Repl It](https://repl.it) to run our site. If you haven't already:
+
+[Clone this REPL](https://repl.it/github/tylerkrupicka/chat)
+
+When that is completed, you should have a new REPL with a directory structure like this:
+
+```
+main.py
+templates/
+static/
+docs/
+README.md
+```
+
+For this project, we will mostly be working in the `main.py` file and `templates/` folder.
+
+### Running the REPL
+
+To make sure everything works, click the `Run` button on the top of the screen. You should see the Flask application start, and open a webpage.
+
+<p align="center">
+  <img src="./images/initial_run.png" alt="First run hello world"/>
+</p>
+
+Congratulations! You have a working Flask website.
+
+## New User Sign Up
+
+We're building a chat application so the first thing we should do is make it possible to send messages, right? Well, not quite. We need to know who is sending each message, which means we need to make users create a `username` before joining the chat.
+
+### Showing the New User Template
+
+Navigate to the `main.py` file and look for the `new_user_page` function. It will look like this:
+
+```py
+@app.route('/')
+def new_user_page():
+```
+
+Notice the `app.route` above the function. The `/` route is our homepage, which means a new user will see this page first when they go to our website.
+
+To start, this function is just returning the text `Hello, Flask`. Can you update it to render the `new_user.html` template based on the Flask tutorial above?
+
+After you make a change, you'll need to stop and start your program to get the latest updates. You may also need to hit the reload button on the website preview. When you have the template rendering it should look like this:
+
+<p align="center">
+  <img src="./images/new_user_page.png" alt="New user page"/>
+</p>
+
+### Sending a Username
+
+Now we need to write some JavaScript to make the page work. When a user clicks the `Submit` button, we need to:
+
+1. Get the text of the username they want to use.
+2. Check that it is valid.
+3. Send the username to our Flask app.
+4. Check the response and either show an error, or sign them in.
+
+Since this project is more about learning Python than JavaScript. A lot of this code will be provided.
+
+Open the `templates/new_user.html` file and locate the `<script>` area near the bottom. This will be where we write our code.
+
+```html
+<script>
+// Write your JavaScript here
+</script>
+```
+
+#### Basic Structure
+
+Add the following code to your script area:
+
+```js
+// Write your JavaScript here
+const button = document.getElementById("submit-username");
+const input = document.getElementById("username");
+
+async function sendUsername() {
+  // Get the username
+  
+  // Check if it is not empty
+
+  // Send it to our Python program
+
+  // Check the results
+}
+
+button.addEventListener("click", sendUsername);
+```
+
+Let's break down what that is doing. If you look in at the `<button>` higher up in the file, it has an `id` of `submit-username`. On the first line, we use that ID to get the button as a JavaScript variable. We do the same thing for the text input on the next line. Going forward, we can use these variables to find out what the user typed and when the click the button. 
+
+On the next line, we create a function called `sendUsername` which will send the username.
+
+On the final line, we add what is called an "event listener". For this example, we are saying "whenever `button` is `clicked`, run our `sendUsername` function.
+
+#### The Send Function
+
+##### Get the Input Value
+Now let's fill out that send function. First, we need to get what the user has typed into the input. This can be done by getting the `value` of the `input`.
+
+```js
+// Get the username
+const username = input.value;
+```
+
+> The `const` creates a new `constant` variable. This means the variable can not be changed. We could also declare it with `var` or `let` if we plan on changing it. You can [read more on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/const).
+
+
+##### Validate the Username
+
+Next, we need to check and make sure they have typed a username before sending. This can be done like this:
+
+```js
+// Check if it is not empty
+if (username.length === 0){
+  setError("Username is empty");
+}
+```
+
+A few notes:
+
+- In JavaScript you get the length of a variable using `.length`.
+- The `===` equals sign is not a typo, in JavaScript you use three equals signs for [strict equality](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Strict_equality). 
+- The `setError` function is not a standard JavaScript function. I have created it for you since it might be confusing. Tricky, right?
+
+##### Send the Username to Flask
+
+Next, we need to send the username to our Flask application. We can send the data using the [fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) function in JavaScript.
+
+
+```js
+// Send it to our Python program
+const response = await fetch('/add_user', {
+  method: 'POST',
+  headers: {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({username: username})
+});
+```
+
+Some notes:
+
+- You can mostly ignore the [await](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function) before fetch. In JavaScript, you can have code that runs at the same time. This `await` just indicates that we want to wait for fetch to finish before continuing.
+- Method `POST` is an [HTTP method](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods). `POST` usually means we want to send data, while `GET` usually means we want to get data. Since we are sending the username, we want `POST`.
+- The headers tell Flask that we are sending our username in `JSON` format. This was covered in the background section.
+- The body is the data we are sending, and we send it as text. `JSON.stringify` is a function that lets us send JSON as text.
+
+##### Get the Response
+
+We now have a variable called `response`, which will contain the response from our Flask server. We can check this to see if there were any errors. Look back at the status codes section if you are unsure about how web servers send back an error.
+
+With that response, we can see if the username was added and let the user know.
+
+```js
+  // Check the results
+  if (response.status === 200) {
+    // Username was added successfully
+    // We can redirect to another page later
+  } else if (response.status === 400) {
+    setError("Username is taken")
+  } else {
+    setError("An error occurred")
+  }
+```
+
+##### Try it out
+
+If we try to submit a username now, we should see an error appear. (You may need to restart your project and reload the page to see the changes).
+
+<p align="center">
+  <img src="./images/new_user_error.png" alt="New user page"/>
+</p>
+
+Why is it an error?
+
+Well, we haven't actually set up our Python program to have a `/new_user` route! We'll do that next.
+
+#### Add User Flask Route
+
+##### Set up the Route
+
+Back in `main.py` we need to add a `/new_user` route that gets the data we are sending from the page. If you remember, we're sending the data as `JSON` using a `POST` request. Here's how you would get that data using Flask:
+
+```py
+@app.route('/add_user', methods=['POST'])
+def add_user():
+    """
+    When a user clicks submit on the new user page,
+    their username will be sent here as JSON.
+    """
+    data = request.get_json() # Get the data sent from the page
+    print(data)
+    return "Got it!"
+```
+
+If you restart your repl, and submit a new user, you should see the username now show up in the Python console!
+
+
+<p align="center">
+  <img src="./images/add_user_print.png" alt="Add user printed in console"/>
+</p>
+
+As you can see in the picture, we now have a Python dictionary with the username in it! We can get the username using:
+
+```py
+data['username']
+```
+
+##### Check if the username exists
+
+Now we need to check if the username exists, and return a response to the page. How do we know what other usernames are taken? We need to keep track of all the usernames we have seen so far.
+
+In Python, we can probably do this using a list:
+
+```py
+users = []
+
+if username in users:
+  return "Already exists", 400 # Send an error 400
+else:
+  users.append(username) # Add username to users
+  return "OK"
+```
+
+> Note: You'll need to create the users array _outside_ of your `add_user` function. If you make it _inside_, a new users array will be created every time somebody hits submit!

@@ -9,7 +9,7 @@ app = Flask(  # Create a flask app
 
 
 @app.route('/')
-def new_user():
+def new_user_page():
     """
     When a user visits our site, we need to collect their name.
     This route just renders the "new_user.html" file as the homepage.
