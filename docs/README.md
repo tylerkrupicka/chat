@@ -1,4 +1,4 @@
-# Me Chat
+# Chat App Tutorial
 
 > Building a simple chat website using Python!
 
