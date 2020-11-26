@@ -456,7 +456,9 @@ async function sendMessage() {
   // Check the results
   if (response.status !== 200) {
     setError("An error occurred")
-  } 
+  } else {
+    input.value = ""; // Clear the field if it sent
+  }
 }
 
 button.addEventListener("click", sendMessage);
@@ -470,3 +472,103 @@ If any part of this seems confusing, look back at the `new_user.html` part of th
   "message": "the text of the message"
 }
 ```
+
+#### Send Message Flask Route
+
+We now need a route in Flask to receive the message being sent! This will also be very similar to the route for adding a user.
+
+```py
+@app.route('/send_message', methods=['POST'])
+def send_message():
+    """
+    When a user clicks submit on chat window,
+    their message will be sent here in json.
+    """
+    data = request.get_json()
+```
+
+Try to do this next part on your own. I've provided an example below, where I've removed my code and replaced it with hint comments.
+
+You'll need to:
+
+- Create a list to store your messages.
+- Check if the data has a username and a message.
+- Save the message to the messages list.
+- Return success.
+
+
+```py
+# Create the list to store messages
+
+@app.route('/send_message', methods=['POST'])
+def send_message():
+  """
+  When a user clicks submit on chat window,
+  their message will be sent here in json.
+  """
+  # Get the JSON from the request
+
+  # Check if "username" and "message" are included in the data
+    # If they are, add it to our messages list
+    # Return a 200 status
+  # else
+    # Return a error code 400
+```
+
+> If you are stuck, add some `print` statements. You can see what data is being sent from the page which will help you understand how it works.
+
+If you have this working, you should be able to send a message from the page and see the text disappear when it sends successfully.
+
+#### Loading messages
+
+You may have noticed a problem. Our chat site sends messages, but they never show on the screen! That's not very useful. So far all the work we have done on our chat page had been about sending messages, but we don't have any way to get them! Let's fix that.
+
+In Python, we need to make a new route called `/messages` that returns our `messages` list in JSON form.
+
+```py
+@app.route('/messages')
+def get_messages():
+    return jsonify(messages)
+```
+
+Pretty simple! We take our array of messages and send it back as JSON. Now our JavaScript can load messages and show them.
+
+Lets go back to `chat.html` and add a function to load the messages.
+
+```js
+async function getMessages() {
+  const response = await fetch('/messages');
+  // Check the results
+  if (response.status !== 200) {
+    setError("Error loading messages.")
+  } else {
+    // Load the messages from JSON
+    const messages = await response.json();
+    // Loop over each message and add it to the screen
+    messages.forEach(message => {
+      addMessage(message.username, message.message)
+    })
+  }
+}
+```
+
+> Note: `addMessage` is a function I have provided for you that shows the message on the page. It's a little complicated, but if you want to see how it works you can look in `main.js`.
+
+OK, now we have a function to get messages, but when should we call it? Well, after we send a message we'd like to see it show up, right? We can call `getMessages` after we send a message, to make that work.
+
+```js
+  if (response.status !== 200) {
+    setError("An error occurred")
+  } else {
+    input.value = "";
+    getMessages(); // Add this line to sendMessages
+  }
+```
+
+> Note: In JavaScript, a function should be created before it can be called. Your `getMessages` function should  be before your `sendMessage` function so it exists before `sendMessage` references it.
+
+Try it out! Now when you hit send, you should see your message appear. There's a problem though, right? Our `/messages` route returns _all_ messages every time, so every time we get messages we get them all. This will cause duplicate messages to be added!
+
+<p align="center">
+  <img src="./images/duplicate_messages.png" alt="The chat screen"/>
+</p>
