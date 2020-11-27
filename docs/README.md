@@ -478,6 +478,7 @@ If any part of this seems confusing, look back at the `new_user.html` part of th
 We now need a route in Flask to receive the message being sent! This will also be very similar to the route for adding a user.
 
 ```py
+# In main.py
 @app.route('/send_message', methods=['POST'])
 def send_message():
     """
@@ -526,6 +527,7 @@ You may have noticed a problem. Our chat site sends messages, but they never sho
 In Python, we need to make a new route called `/messages` that returns our `messages` list in JSON form.
 
 ```py
+# In main.py
 @app.route('/messages')
 def get_messages():
     return jsonify(messages)
@@ -536,6 +538,7 @@ Pretty simple! We take our array of messages and send it back as JSON. Now our J
 Lets go back to `chat.html` and add a function to load the messages.
 
 ```js
+// In chat.html
 async function getMessages() {
   const response = await fetch('/messages');
   // Check the results
@@ -557,6 +560,7 @@ async function getMessages() {
 OK, now we have a function to get messages, but when should we call it? Well, after we send a message we'd like to see it show up, right? We can call `getMessages` after we send a message, to make that work.
 
 ```js
+// In the sendMessages function in chat.html
   if (response.status !== 200) {
     setError("An error occurred")
   } else {
@@ -572,3 +576,64 @@ Try it out! Now when you hit send, you should see your message appear. There's a
 <p align="center">
   <img src="./images/duplicate_messages.png" alt="The chat screen"/>
 </p>
+
+#### Only Loading New Messages
+
+We're going to have to make some changes to our `getMessages` code and `/messages` route to only get _new_ messages that we haven't seen.
+
+For this we are going to use [URL parameters](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams). These are variables that we can add on to the end of a URL, and they are commonly used for uses like this. 
+
+In our `getMessages` JavaScript function, we can add a URL parameter that tells our Python program how many messages we have seen already.
+
+```js
+// In chat.html
+async function getMessages() {
+  const current = getMessagesCount(); // I created the getMessagesCount function for you
+  const response = await fetch(`/messages?current=${current}`);
+```
+
+For URL parameters, you add a `?`, and then set your variables. In this example we're creating a variable called `current` to tell Flask what the current message we see is. In other words, if we have seen 5 messages, we will ask our Python program for only messages after the fifth one.
+
+In `main.py` we can change our `/messages` route to look for the `current` variable and only send new messages.
+
+```py
+@app.route('/messages')
+def get_messages():
+    if "amount" in request.args:
+      amount = int(request.args["amount"]) # Convert it from text to number
+      # Return from the amount index to the end of the list using list slicing
+      return jsonify(messages[amount:])
+    else:
+      return jsonify(messages)
+```
+
+> Note: If you are new to Python you might not have seen the `[amount:]` syntax for splitting up the list. Here's a [guide](https://stackoverflow.com/questions/509211/understanding-slice-notation) if you want to learn more.
+
+#### Checking Periodically
+
+So now we should no longer be seeing duplicate messages show up, but right now we are only checking for new messages when we send one. What if we get sent a message from someone else? There are a lot of ways we could make this work, but the simplest is a method called `polling`. Polling just means, check for new messages on a timer.
+
+In JavaScript, we can run a function on a timer using [setInterval](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setInterval). It takes two arguments, what function to run, and how much time to wait in between runs.
+
+At the bottom of our script in `chat.html`, we can add:
+
+```js
+getMessages(); // Run when the page loads
+setInterval(getMessages, 3000); // Run again every 3 seconds
+```
+
+This will check for new messages every 3 seconds (3000 milliseconds).
+
+> Note: If this was a real product, polling would likely _not_ be the method to do this. Imagine if thousands of people were chatting at once, your Python application would be getting requests constantly checking for new messages. For this reason, there are specialized tools like [WebSockets](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API) that can just send the page a new message when it arrives. For this small app, however, polling will work well.
+
+#### Try it out!
+
+You should now be able to open multiple tabs of your chat site in your browser (Chrome or FireFox), and message between them! New messages will arrive after at most 3 seconds.
+
+> The URL for your app can be found at the top of your preview window in Repl it. It will look like https://chat.yourusername.repl.co.
+
+<p align="center">
+  <img src="./images/working_chat.png" alt="The chat screen"/>
+</p>
+
+You can also open up this chat on your phone, or send it to friends to try out Congratulations, you've made a basic chat app!

@@ -12,12 +12,6 @@
     <h1>Chat</h1>
     <div id="chat">
         <ul id="messages">
-            {% for message in messages %}
-            <li class="message">
-                <div class="name">{{ message.username }}</div>
-                <div class="text">{{ message.message }}</div>
-            </li>
-            {% endfor %}
         </ul>
         <div id="compose">
             <input type="text" id="message-input" placeholder="Send a message"></input>
@@ -29,7 +23,7 @@
 </body>
 
 <script>
-// Write your JavaScript here
+    // Write your JavaScript here
 </script>
 
 </html>
