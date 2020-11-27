@@ -640,3 +640,39 @@ You can also open up this chat on your phone, or send it to friends to try out C
 
 ## Enhancements
 
+So far, this tutorial has provided a lot of code for you to illustrate a lot of the concepts. Now that you get the basics, you can modify and improve your chat application however you wish. In this section, I'll provide some example improvements that you can make to your app. 
+
+### Add A Database
+
+You may have noticed every time you stop and start our Python program, all of the users and messages disappear. Why is that?
+
+When we create our users array:
+
+```py
+users = []
+```
+
+We are creating it as a variable that is part of our Python program. When Python quits, that data is lost like any other Python program. So how do websites store data? You may have guessed from the title: [databases](https://developer.mozilla.org/en-US/docs/Glossary/Database).
+
+Databases can be a lot of things, from a simple file that is saved, to complicated programs that can store millions of entries easily. On Repl It, they have a simple "key value" database
+
+```py
+from replit import db
+db["key"] = "value"
+```
+
+Try setting this up for your `messages` and `users`, and you'll see that they stay even after you restart the server!
+
+If you need more documentation, click the database icon on the left of Repl it (it looks like a cylinder).
+
+### Add Timestamps
+
+### Send on Enter
+
+### Better User Accounts
+
+### Change the appearance
+
+### Make messages disappear
+
+### Try WebSockets
