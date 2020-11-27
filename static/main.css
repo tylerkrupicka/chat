@@ -108,12 +108,6 @@ button:hover {
   margin: 2px 16px;
 }
 
-.time {
-  font-size: 0.7em;
-  margin: 2px 16px;
-  color: #E5E5EA;
-}
-
 .mine > .name {
   text-align: right;
 }
@@ -132,3 +126,19 @@ button:hover {
 #compose > button {
   height: 34px;
 }
+
+@media only screen and (max-width: 500px) {
+  #compose {
+    flex-direction: column;
+  }
+
+  #compose > input {
+    margin-right: 0px;
+  }
+
+  #compose > button {
+    width: 100%;
+  }
+
+}
+

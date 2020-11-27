@@ -3,6 +3,7 @@
 <html lang="en">
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <title>Chat</title>
     <link href="/static/main.css" rel="stylesheet" type="text/css">
@@ -11,7 +12,7 @@
 <body>
     <h1>Chat</h1>
     <div id="chat">
-        <ul id="messages">
+        <ul id="messages" aria-live="polite">
         </ul>
         <div id="compose">
             <input type="text" id="message-input" placeholder="Send a message"></input>
