@@ -399,9 +399,9 @@ Now our sign up page should work! Try submitting a username; the first time you 
   <img src="./images/username_taken.png" alt="The username is taken"/>
 </p>
 
-### The Chat Page
+## The Chat Page
 
-#### Set up the Route
+### Set up the Route
 
 We're finally done with usernames, let's make the chat page! We'll put it at the `/chat` route in our website:
 
@@ -427,7 +427,7 @@ Now you should be able to restart your program and enter a username. If it adds 
   <img src="./images/chat_screen.png" alt="The chat screen"/>
 </p>
 
-#### Sending a Message
+### Sending a Message
 
 We are now going to be writing some code in `chat.html`, so that we can send messages. This will hopefully look _very_ similar to the code for sending the username.
 
@@ -473,7 +473,7 @@ If any part of this seems confusing, look back at the `new_user.html` part of th
 }
 ```
 
-#### Send Message Flask Route
+### Send Message Flask Route
 
 We now need a route in Flask to receive the message being sent! This will also be very similar to the route for adding a user.
 
@@ -520,7 +520,7 @@ def send_message():
 
 If you have this working, you should be able to send a message from the page and see the text disappear when it sends successfully.
 
-#### Loading messages
+### Loading messages
 
 You may have noticed a problem. Our chat site sends messages, but they never show on the screen! That's not very useful. So far all the work we have done on our chat page had been about sending messages, but we don't have any way to get them! Let's fix that.
 
@@ -577,7 +577,7 @@ Try it out! Now when you hit send, you should see your message appear. There's a
   <img src="./images/duplicate_messages.png" alt="The chat screen"/>
 </p>
 
-#### Only Loading New Messages
+### Only Loading New Messages
 
 We're going to have to make some changes to our `getMessages` code and `/messages` route to only get _new_ messages that we haven't seen.
 
@@ -609,7 +609,7 @@ def get_messages():
 
 > Note: If you are new to Python you might not have seen the `[amount:]` syntax for splitting up the list. Here's a [guide](https://stackoverflow.com/questions/509211/understanding-slice-notation) if you want to learn more.
 
-#### Checking Periodically
+### Checking Periodically
 
 So now we should no longer be seeing duplicate messages show up, but right now we are only checking for new messages when we send one. What if we get sent a message from someone else? There are a lot of ways we could make this work, but the simplest is a method called `polling`. Polling just means, check for new messages on a timer.
 
@@ -626,7 +626,7 @@ This will check for new messages every 3 seconds (3000 milliseconds).
 
 > Note: If this was a real product, polling would likely _not_ be the method to do this. Imagine if thousands of people were chatting at once, your Python application would be getting requests constantly checking for new messages. For this reason, there are specialized tools like [WebSockets](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API) that can just send the page a new message when it arrives. For this small app, however, polling will work well.
 
-#### Try it out!
+### Try it out!
 
 You should now be able to open multiple tabs of your chat site in your browser (Chrome or FireFox), and message between them! New messages will arrive after at most 3 seconds.
 
@@ -637,3 +637,6 @@ You should now be able to open multiple tabs of your chat site in your browser (
 </p>
 
 You can also open up this chat on your phone, or send it to friends to try out Congratulations, you've made a basic chat app!
+
+## Enhancements
+
