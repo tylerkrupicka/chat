@@ -34,7 +34,7 @@ Web pages are what a user actually sees and interacts with in their browser (Chr
 
 #### JavaScript
 
-[JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)is code that you can run in your page to make it interactive. There's _a lot_ that you can do with JavaScript, but for this exercise we'll be focusing on the basics: event handlers and requests. In the following example, we'll make the button from the HTML example print a message when clicked.
+[JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) is code that you can run in your page to make it interactive. There's _a lot_ that you can do with JavaScript, but for this exercise we'll be focusing on the basics: event handlers and requests. In the following example, we'll make the button from the HTML example print a message when clicked.
 
 ```js
 // The `document` variable gives you access to the current HTML page
