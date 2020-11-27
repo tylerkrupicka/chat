@@ -673,7 +673,7 @@ Difficulty: _easy_
 
 One thing that is helpful in most messengers is knowing when somebody sent a message. Adding this to our app will require some changes to `main.py` and `main.js`.
 
-Believe it or not, many computer programs store time as [UNIX time](https://en.wikipedia.org/wiki/Unix_time), which is a number that represents the secons since January 1st, 1970. 
+Believe it or not, many computer programs store time as [UNIX time](https://en.wikipedia.org/wiki/Unix_time), which is a number that represents the seconds since January 1st, 1970. 
 
 In `main.py`, you can get the current time using the python `time` module:
 
@@ -717,6 +717,18 @@ Difficulty: _easy_
 
 All of the appearance of the site is done using CSS, in the `main.css` file. You can modify it to change how the pages look and animate. Try it out! MDN has [a good CSS tutorial](https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps).
 
+### Scroll to bottom
+
+Difficulty: _easy_
+
+In most messengers, when a new message comes in you want to scroll to the bottom of the messages. We can do this by modifying `chat.html` with some [scrolling](https://stackoverflow.com/questions/18614301/keep-overflow-div-scrolled-to-bottom-unless-user-scrolls-up/21067431) JavaScript code.
+
+### New User Join Message
+
+Difficulty: _easy_
+
+When a new user joins, it would be nice to have a message printed letting others know that they join. This could be done a few different ways. The simplest is to just send a message as "system" when a new user joins. On the page, you could make a different style for "system" messages as well.
+
 ### Better User Accounts
 
 Difficulty: _medium_
@@ -739,4 +751,4 @@ Right now our page has to constantly check for new messages, which is not very e
 
 Difficulty: _very hard_
 
-For anyone really in to encryption, you can look at sending messages that are fully encrypted (are completely private). These systems usually work by having users exhange keys using a system called Diffie-Hellman Key Exchange. Some libraries that might be a helpful start are [pyDH](https://github.com/amiralis/pyDH) and [python-axolotl](https://github.com/tgalal/python-axolotl) which uses the Signal messenger encryption protocol.
+For anyone really in to encryption, you can look at sending messages that are fully encrypted (are completely private). These systems usually work by having users exchange keys using a system called Diffie-Hellman Key Exchange. Some libraries that might be a helpful start are [pyDH](https://github.com/amiralis/pyDH) and [python-axolotl](https://github.com/tgalal/python-axolotl) which uses the Signal messenger encryption protocol.
