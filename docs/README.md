@@ -675,31 +675,11 @@ Try setting this up for your `messages` and `users`, and you'll see that they st
 
 If you need more documentation, click the database icon on the left of Repl it (it looks like a cylinder).
 
-### Add Timestamps
+Some hints to help you out:
 
-Difficulty: _easy_
-
-One thing that is helpful in most messengers is knowing when somebody sent a message. Adding this to our app will require some changes to `main.py` and `main.js`.
-
-Believe it or not, many computer programs store time as [UNIX time](https://en.wikipedia.org/wiki/Unix_time), which is a number that represents the seconds since January 1st, 1970. 
-
-In `main.py`, you can get the current time using the python `time` module:
-
-```py
-import time
-timestamp = int(time.time())
-```
-
-If you save that with your messages, you can modify the `addMessage` function in `main.js` to add it underneath bubble.
-
-```js
-// Create time div
-const name = document.createElement("div");
-name.classList.add("time")
-name.innerText = time;
-```
-
-Since your users may not like reading time as a number since 1970, you can use the JavaScript [Date](https://www.w3schools.com/js/js_date_formats.asp) to format it into a nice format.
+- Instead of setting `users` and `messages` to empty lists, check if there are messages in the database and load those. The database will return `None` if they do not exist.
+- Every time you add a user or messages, make sure to save your data in the database.
+- You won't be able to do things like `db["users"].append(user)`, the database only supports setting things equal to it.
 
 ### Send on Enter
 
@@ -736,6 +716,33 @@ In most messengers, when a new message comes in you want to scroll to the bottom
 Difficulty: _easy_
 
 When a new user joins, it would be nice to have a message printed letting others know that they join. This could be done a few different ways. The simplest is to just send a message as "system" when a new user joins. On the page, you could make a different style for "system" messages as well.
+
+### Add Timestamps
+
+Difficulty: _easy_
+
+One thing that is helpful in most messengers is knowing when somebody sent a message. Adding this to our app will require some changes to `main.py` and `main.js`.
+
+Believe it or not, many computer programs store time as [UNIX time](https://en.wikipedia.org/wiki/Unix_time), which is a number that represents the seconds since January 1st, 1970. 
+
+In `main.py`, you can get the current time using the python `time` module:
+
+```py
+import time
+timestamp = int(time.time())
+```
+
+If you save that with your messages, you can modify the `addMessage` function in `main.js` to add it underneath bubble.
+
+```js
+// Create time div
+const name = document.createElement("div");
+name.classList.add("time")
+name.innerText = time;
+```
+
+Since your users may not like reading time as a number since 1970, you can use the JavaScript [Date](https://www.w3schools.com/js/js_date_formats.asp) to format it into a nice format.
+
 
 ### Better User Accounts
 
