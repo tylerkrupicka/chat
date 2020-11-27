@@ -108,6 +108,12 @@ button:hover {
   margin: 2px 16px;
 }
 
+.time {
+  font-size: 0.7em;
+  margin: 2px 16px;
+  color: #E5E5EA;
+}
+
 .mine > .name {
   text-align: right;
 }

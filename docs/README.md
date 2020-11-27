@@ -667,7 +667,33 @@ If you need more documentation, click the database icon on the left of Repl it (
 
 ### Add Timestamps
 
+One thing that is helpful in most messengers is knowing when somebody sent a message. Adding this to our app will require some changes to `main.py` and `main.js`.
+
+Believe it or not, many computer programs store time as [UNIX time](https://en.wikipedia.org/wiki/Unix_time), which is a number that represents the secons since January 1st, 1970. 
+
+In `main.py`, you can get the current time using the python `time` module:
+
+```py
+import time
+timestamp = int(time.time())
+```
+
+If you save that with your messages, you can modify the `addMessage` function in `main.js` to add it underneath bubble.
+
+```js
+// Create time div
+const name = document.createElement("div");
+name.classList.add("time")
+name.innerText = time;
+```
+
+Since your users may not like reading time as a number since 1970, you can use the JavaScript [Date](https://www.w3schools.com/js/js_date_formats.asp) to format it into a nice format.
+
 ### Send on Enter
+
+A simple addition would be allowing users to send a message when they hit the `Enter` key on their keyboard. No mouse needed!
+
+To do this, you can modify `chat.html` file and add a event listener to the `input`. Here's [an example](https://jsfiddle.net/techiedelight/8m1aybep/).
 
 ### Better User Accounts
 
