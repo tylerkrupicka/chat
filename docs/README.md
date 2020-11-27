@@ -581,33 +581,41 @@ Try it out! Now when you hit send, you should see your message appear. There's a
 
 We're going to have to make some changes to our `getMessages` code and `/messages` route to only get _new_ messages that we haven't seen.
 
-For this we are going to use [URL parameters](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams). These are variables that we can add on to the end of a URL, and they are commonly used for uses like this. 
+For this we are going to use [URL parameters](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams). These are variables that we can add on to the end of a URL, and they are commonly used for situations like this. 
 
 In our `getMessages` JavaScript function, we can add a URL parameter that tells our Python program how many messages we have seen already.
 
 ```js
 // In chat.html
 async function getMessages() {
-  const current = getMessagesCount(); // I created the getMessagesCount function for you
-  const response = await fetch(`/messages?current=${current}`);
+  const seen = getMessagesCount(); // I created the getMessagesCount function for you
+  const response = await fetch(`/messages?seen=${seen}`);
 ```
 
-For URL parameters, you add a `?`, and then set your variables. In this example we're creating a variable called `current` to tell Flask what the current message we see is. In other words, if we have seen 5 messages, we will ask our Python program for only messages after the fifth one.
+For URL parameters, you add a `?`, and then set your variables. In this example we're creating a variable called `seen` to tell Flask how messages we have seen so far. In other words, if we have seen 5 messages, we will tell Python: "are there any messages? We have seen 5 of them". Then our Python program can check and return only messages that come _after_ the fifth one.
 
-In `main.py` we can change our `/messages` route to look for the `current` variable and only send new messages.
+In `main.py` we can change our `/messages` route to look for the `seen` variable and only send new messages.
+
+In Flask, you access URL parameters using `request.args`:
+
+```py
+# https://mysite.com/messages?seen=5
+# You can get seen with
+request.args["seen"]
+```
 
 ```py
 @app.route('/messages')
 def get_messages():
-    if "amount" in request.args:
-      amount = int(request.args["amount"]) # Convert it from text to number
-      # Return from the amount index to the end of the list using list slicing
-      return jsonify(messages[amount:])
+    if "seen" in request.args:
+      seen = int(request.args["seen"]) # Convert it from text to number
+      # Return messages after what they have seen already
+      return jsonify(messages[seen:])
     else:
       return jsonify(messages)
 ```
 
-> Note: If you are new to Python you might not have seen the `[amount:]` syntax for splitting up the list. Here's a [guide](https://stackoverflow.com/questions/509211/understanding-slice-notation) if you want to learn more.
+> Note: If you are new to Python you might not have seen the `[seen:]` syntax for splitting up the list. Here's a [guide](https://stackoverflow.com/questions/509211/understanding-slice-notation) if you want to learn more.
 
 ### Checking Periodically
 
