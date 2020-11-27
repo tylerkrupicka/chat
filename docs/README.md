@@ -644,6 +644,8 @@ So far, this tutorial has provided a lot of code for you to illustrate a lot of 
 
 ### Add A Database
 
+Difficulty: _easy_
+
 You may have noticed every time you stop and start our Python program, all of the users and messages disappear. Why is that?
 
 When we create our users array:
@@ -666,6 +668,8 @@ Try setting this up for your `messages` and `users`, and you'll see that they st
 If you need more documentation, click the database icon on the left of Repl it (it looks like a cylinder).
 
 ### Add Timestamps
+
+Difficulty: _easy_
 
 One thing that is helpful in most messengers is knowing when somebody sent a message. Adding this to our app will require some changes to `main.py` and `main.js`.
 
@@ -691,26 +695,48 @@ Since your users may not like reading time as a number since 1970, you can use t
 
 ### Send on Enter
 
+Difficulty: _easy_
+
 A simple addition would be allowing users to send a message when they hit the `Enter` key on their keyboard. No mouse needed!
 
 To do this, you can modify `chat.html` file and add a event listener to the `input`. Here's [an example](https://jsfiddle.net/techiedelight/8m1aybep/).
 
-### Better User Accounts
+### Filtered Words
 
-Right now, our user accounts are just an array of names. For a real service, you would usually have a username _and_ password. You can use a package like [Flask-login](https://flask-login.readthedocs.io/en/latest/). Just remember, if you're storing passwords it's never a good idea to store it in plaintext. I'd recommend using some [encryption](https://blog.tecladocode.com/learn-python-encrypting-passwords-python-flask-and-passlib/) and password salk (look it up).
+Difficulty: _easy_
+
+Some chat applications filter words that are not polite. You could add a list of "banned" words and replace them with `*` characters. In Python, a helpful function for this is:
+
+```py
+"message".replace("banned", "******")
+```
 
 ### Change the appearance
 
+Difficulty: _easy_
+
 All of the appearance of the site is done using CSS, in the `main.css` file. You can modify it to change how the pages look and animate. Try it out! MDN has [a good CSS tutorial](https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps).
 
+### Better User Accounts
+
+Difficulty: _medium_
+
+Right now, our user accounts are just an array of names. For a real service, you would usually have a username _and_ password. You can use a package like [Flask-login](https://flask-login.readthedocs.io/en/latest/). Just remember, if you're storing passwords it's never a good idea to store it in plaintext. I'd recommend using some [encryption](https://blog.tecladocode.com/learn-python-encrypting-passwords-python-flask-and-passlib/) and password salk (look it up).
+
 ### Make messages disappear
+
+Difficulty: _medium_
 
 If you completed the timestamps project, you could make the messages disappear after a certain amount of time. You can use [threads](https://stackoverflow.com/questions/8600161/executing-periodic-actions-in-python) to run a timer and delete old messages. You would also need to do the same in JavaScript to make the messages disappear for users.
 
 ### Try WebSockets
 
+Difficulty: _hard_
+
 Right now our page has to constantly check for new messages, which is not very efficient. WebSockets are a way to send messages as they arrive, without the need to check. You can use [Flask-SocketIO](https://flask-socketio.readthedocs.io/en/latest/) in Python and [SocketIO](https://socket.io/) in JavaScript to establish the connection between the two.
 
 ### End-to-End encryption
+
+Difficulty: _very hard_
 
 For anyone really in to encryption, you can look at sending messages that are fully encrypted (are completely private). These systems usually work by having users exhange keys using a system called Diffie-Hellman Key Exchange. Some libraries that might be a helpful start are [pyDH](https://github.com/amiralis/pyDH) and [python-axolotl](https://github.com/tgalal/python-axolotl) which uses the Signal messenger encryption protocol.
