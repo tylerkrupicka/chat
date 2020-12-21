@@ -748,7 +748,7 @@ Since your users may not like reading time as a number since 1970, you can use t
 
 Difficulty: _medium_
 
-Right now, our user accounts are just an array of names. For a real service, you would usually have a username _and_ password. You can use a package like [Flask-login](https://flask-login.readthedocs.io/en/latest/). Just remember, if you're storing passwords it's never a good idea to store it in plaintext. I'd recommend using some [encryption](https://blog.tecladocode.com/learn-python-encrypting-passwords-python-flask-and-passlib/) and password salk (look it up).
+Right now, our user accounts are just an array of names. For a real service, you would usually have a username _and_ password. You can use a package like [Flask-login](https://flask-login.readthedocs.io/en/latest/). Just remember, if you're storing passwords it's never a good idea to store it in plaintext. I'd recommend using some [encryption](https://blog.tecladocode.com/learn-python-encrypting-passwords-python-flask-and-passlib/) and password salt (look it up).
 
 ### Make messages disappear
 
